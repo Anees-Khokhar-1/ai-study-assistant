@@ -85,7 +85,7 @@ Nginx reverse proxy
 
 ⚙️ Setup Instructions
 1️⃣ Clone the repository
-git clone https://github.com/YOUR_USERNAME/ai-study-assistant.git
+git clone https://github.com/Anees-Khokhar-1/ai-study-assistant.git
 cd ai-study-assistant
 
 🖥️ Backend Setup (Flask)
