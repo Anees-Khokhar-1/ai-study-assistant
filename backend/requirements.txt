@@ -1,0 +1,15 @@
+flask
+gunicorn
+transformers
+torch
+pdfplumber
+pymupdf
+pytesseract
+sentencepiece
+nltk
+spacy
+python-dotenv
+gTTS
+sqlalchemy
+psycopg2-binary
+pytest
