@@ -1,0 +1,38 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+venv/
+.env
+*.sqlite3
+
+# VS Code
+.vscode/
+
+# Node.js
+node_modules/
+
+# Docker
+*.log
+*.pid
+*.gz
+docker-compose.override.yml
+
+# Flask
+instance/
+*.db
+
+# HuggingFace cache
+.cache/
+
+# Pytest
+.pytest_cache/
+
+# Operating System
+.DS_Store   # macOS
+Thumbs.db   # Windows
+
+# IDE/Editor
+.idea/
+*.swp       # Vim
