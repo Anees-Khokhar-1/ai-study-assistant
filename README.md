@@ -1,104 +1,57 @@
-📘 AI Study Assistant / Notes Summarizer
+📘 AI Study Assistant
 
-Upload lecture PDFs or text → get clean, structured summarized notes. Optional TTS support.
+An AI-powered tool that helps students summarize PDFs, generate notes, create MCQs, and chat with an AI tutor. Built with Flask (backend) and React (frontend).
 
-🚀 Overview
+🚀 Features
 
-AI Study Assistant is a full-stack web application that allows students and researchers to upload lecture notes (PDF/text) and get high-quality summaries generated using state-of-the-art NLP transformer models (BART/T5/GPT).
-It also supports optional Text-to-Speech to generate MP3 audio summaries.
+📄 PDF Summarizer – Upload a PDF and get a clean summary
 
-✨ Features
+📝 Notes Generator – Convert text into structured study notes
 
-🔹 Upload PDFs or raw text
-🔹 Automatic text extraction (PDF → text)
-🔹 Summarization using HuggingFace Transformers
-🔹 Chunking for long documents
-🔹 Downloadable summary files
-🔹 Optional text-to-speech (MP3 export)
-🔹 React frontend + Flask backend
-🔹 Docker & Docker Compose support
-🔹 Modular, clean code structure
-🧰 Tech Stack
-Backend
-Python 3.11
-Flask
-HuggingFace Transformers (BART, T5)
-pdfplumber / PyMuPDF
-pytesseract (OCR fallback)
-SQLAlchemy
-gTTS (optional)
-Frontend
-React
-Axios
-Vite/Create-React-App
-Infrastructure
-Docker
-Docker Compose
-Nginx reverse proxy
-⚙️ Setup Instructions
-1️⃣ Clone the repository
-git clone https://github.com/Anees-Khokhar-1/ai-study-assistant.git
-cd ai-study-assistant
-🖥️ Backend Setup (Flask)
-2️⃣ Create virtual environment
+❓ MCQ Generator – Automatically create practice MCQs
+
+🤖 AI Chat – Ask questions and get intelligent answers
+
+🔊 Text-to-Speech – Listen to your summaries and notes
+
+📂 Project Structure
+backend/        → Flask API (summaries, chat, MCQs, notes, TTS)
+frontend/       → React UI
+docker-compose.yml
+README.md
+
+⚙️ Backend Setup (Flask)
 cd backend
 python -m venv venv
-source venv/bin/activate      # macOS/Linux
-venv\Scripts\activate         # Windows
-
-3️⃣ Install dependencies
+venv\Scripts\activate
 pip install -r requirements.txt
-
-4️⃣ Run the backend server
 python app.py
-Backend runs on:
-http://127.0.0.1:8000
+
+
+Backend runs at:
+👉 http://localhost:5000
+
 🌐 Frontend Setup (React)
-1️⃣ Install dependencies
 cd frontend
 npm install
-2️⃣ Start development server
 npm start
-Frontend runs on:
-http://localhost:3000
-🐳 Run With Docker (Full System)
-Ensure Docker is installed.
-1️⃣ Build and start all services
-docker-compose up --build
-2️⃣ Stop
-docker-compose down
-🧪 API Endpoints
-POST /api/upload
-Upload PDF and get summarized notes.
-multipart/form-data:
-- file: <pdf>
-POST /api/summarize
-Send raw text.
-{
-  "text": "your text here..."
-}
-GET /api/summary/<id>
-Fetch previously generated summaries.
-🔊 Text-to-Speech Support
-To enable TTS:
-from models.tts import text_to_speech
-file = text_to_speech(summary)
-Outputs MP3 audio file.
-🧩 Future Enhancements
-User accounts + login
-Store user history
-Flashcard generation
-Export to Notion/Google Docs
-Better summarization using GPT-4/LLMs
-Fine-tuning on lecture datasets
-🤝 Contribution
-Pull requests are welcome!
-Please open an issue for bugs or feature requests.
-🪪 License
-MIT License — free to use, modify, and distribute.
-❤️ Acknowledgments
-HuggingFace Transformers
-Flask & React communities
-pdfplumber / PyMuPDF
 
-Google TTS
+
+Frontend runs at:
+👉 http://localhost:3000
+
+Automatically connects to the backend.
+
+🔗 API Endpoints
+Endpoint	Method	Description
+/api/upload	POST	Upload PDF & summarize
+/summarize	POST	Summarize text
+/notes	POST	Generate notes
+/mcq	POST	Generate MCQs
+/chat	POST	AI chat
+🐳 Docker (Optional)
+docker-compose up --build
+
+📜 License
+
+MIT License
