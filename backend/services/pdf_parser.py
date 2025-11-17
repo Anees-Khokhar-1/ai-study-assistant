@@ -1,19 +1,14 @@
+# backend/services/pdf_parser.py
 import pdfplumber
-import pytesseract
-from io import BytesIO
-
-def parse_pdf(file):
-    with pdfplumber.open(file) as pdf:
-        text = ""
-        for page in pdf.pages:
-            text += page.extract_text() or ""
-        if not text:  # fallback to OCR
-            text = ocr_pdf(file)
-    return text
-
-def ocr_pdf(file):
-    from PIL import Image
-    import pytesseract
-    img = Image.open(BytesIO(file.read()))
-    text = pytesseract.image_to_string(img)
-    return text
+def parse_pdf(file_storage):
+    text_parts = []
+    try:
+        # pdfplumber can read file-like objects
+        with pdfplumber.open(file_storage.stream) as pdf:
+            for page in pdf.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text_parts.append(page_text)
+    except Exception:
+        pass
+    return "\n".join(text_parts).strip()

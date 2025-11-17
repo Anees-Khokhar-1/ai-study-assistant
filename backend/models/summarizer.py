@@ -1,41 +1,26 @@
 # backend/models/summarizer.py
-
-from transformers import pipeline, AutoModelForSeq2SeqLM, AutoTokenizer
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
+from utils.text_chunker import chunk_text
 
 class Summarizer:
-    def __init__(self, model_name='facebook/bart-large-cnn', device=-1):
-        """
-        Initializes the Summarizer with a specified model and device.
-        
-        Args:
-            model_name (str): The name of the Hugging Face model to load (default: 'facebook/bart-large-cnn').
-            device (int): The device to run the model on (-1 for CPU, 0 for GPU) (default: -1).
-        """
-        # Load tokenizer and model using AutoModelForSeq2SeqLM for sequence-to-sequence tasks
+    def __init__(self, model_name="sshleifer/distilbart-cnn-12-6", device=-1):
+        self.model_name = model_name
+        self.device = device
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
-        
-        # Set up the summarization pipeline
-        self.pipeline = pipeline('summarization', model=self.model, tokenizer=self.tokenizer, device=device)
+        self.pipeline = pipeline("summarization", model=self.model, tokenizer=self.tokenizer, device=self.device)
 
-    def summarize(self, text):
-        """
-        Summarizes the given text using the initialized summarization pipeline.
-        
-        Args:
-            text (str): The input text to summarize.
-        
-        Returns:
-            list: A list of dictionaries containing the summary text.
-        """
-        return self.pipeline(text)
-
-# Example usage (this part is for demonstration, you can remove it or use it as needed)
-if __name__ == "__main__":
-    summarizer = Summarizer(model_name='facebook/bart-large-cnn')
-    text = """
-    The quick brown fox jumps over the lazy dog. This is a classic sentence used to test fonts and keyboards.
-    It contains every letter of the alphabet, making it ideal for font rendering tests. The sentence is short but full of information.
-    """
-    summary = summarizer.summarize(text)
-    print(summary)
+    def summarize(self, text, max_chunk_chars=1000, max_length=150, min_length=40):
+        if not text or not text.strip():
+            return ""
+        chunks = chunk_text(text, max_chunk_chars)
+        if len(chunks) == 1:
+            out = self.pipeline(chunks[0], max_length=max_length, min_length=min_length, do_sample=False)
+            return out[0]["summary_text"].strip()
+        partials = []
+        for c in chunks:
+            o = self.pipeline(c, max_length=max_length, min_length=min_length, do_sample=False)
+            partials.append(o[0]["summary_text"].strip())
+        merged = " ".join(partials)
+        final = self.pipeline(merged, max_length=max_length, min_length=min_length, do_sample=False)
+        return final[0]["summary_text"].strip() 
